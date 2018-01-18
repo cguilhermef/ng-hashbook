@@ -1,0 +1,31 @@
+<div class="content">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 col-md-6 offset-md-3">
+        <h4 class="column-title">Conversa</h4>
+        <div class="mb-2">
+          <span class="badge badge-secondary">{{ hash }}</span>
+        </div>
+        <div class="message">
+          <div *ngFor="let msg of messages" class="text-left">
+            <div [ngClass]="{'text-left': !msg.me, 'text-right': msg.me}">
+              {{ msg.text }}
+            </div>
+          </div>
+        </div>
+        <div class="input-group mb-3">
+          <input 
+           #newText
+           (keydown.enter)="send(newText.value)"
+           type="text" class="form-control" placeholder="Mensagem">
+          <div class="input-group-append">
+            <button
+              [attr.disabled]="newText.value."
+              (click)="send(newText.value)"
+              class="btn btn-success" type="button">Enviar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

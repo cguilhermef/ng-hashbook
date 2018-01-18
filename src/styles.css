@@ -1,1 +1,67 @@
-/* You can add global styles to this file, and also import other style files */
+html {
+  font-family: 'Montserrat', sans-serif;
+}
+
+.header {
+  align-items: center;
+  background-color: cornflowerblue;
+  color: white;
+  display: flex;
+  padding: 1rem;
+}
+.header-container {
+  display: flex;
+}
+
+.header-links {
+  align-items: center;
+  display: flex;
+  flex: 1 0 auto;
+}
+.header-title {
+  font-family: 'Supermercado One', cursive;
+  font-size: 2rem;
+  margin: 0 4rem 0 0;
+}
+
+.header-link {
+  color: white;
+  cursor: pointer;
+}
+
+.header-link:hover,
+.header-link:active,
+.header-link.active {
+  border-bottom: 2px solid #fff;
+  color: white;
+  text-decoration: none;
+}
+
+.header-link + .header-link {
+  margin-left: 1.5rem;
+}
+
+.content {
+  margin-top: 40px;
+}
+
+.message {
+  background-color: #f0f0f0;
+  padding: 1rem;
+}
+
+.footer {
+  align-items: center;
+  background-color: black;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  padding: .5rem;
+  position: fixed;
+  width: 100%;
+}
+
+.footer-text {
+  color: white;
+  margin-bottom: 0;
+}
