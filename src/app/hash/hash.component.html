@@ -2,10 +2,16 @@
 <div class="content">
   <div class="container">
     <div class="row">
-      <div class="col-12 col-md-4 offset-md-4">
+      <div class="col-12 col-md-6 offset-md-3">
         <h3>Novo hash</h3>
-        <input type="text" class="form-control" readonly value="da6a47c8-fb98-11e7-8c3f-9a214cf093ae">  
-        <button class="btn btn-primary btn-block mt-3">Iniciar conversa</button>
+
+
+        <hb-hash-input [code]="hash" (refreshCode)="refresh()"></hb-hash-input>
+
+
+        <button 
+          class="btn btn-primary btn-block mt-3" 
+          (click)="startNewChat()">Iniciar conversa</button>
       </div>
     </div>
   </div>
