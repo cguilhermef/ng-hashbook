@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NewChatService } from './new-chat.service';
 
@@ -14,12 +14,13 @@ export class NewChatComponent implements OnInit {
   hash: string;
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private service: NewChatService
   ) { }
 
   ngOnInit() {
 
-    this.route.params.subscribe(parameters => this.hash = parameters.code );
+    this.route.params.subscribe(parameters => this.hash = parameters.code);
     this.setupForm();
 
   }
@@ -42,19 +43,21 @@ export class NewChatComponent implements OnInit {
     // const hash = this.form.value.hash;
     // const secret = this.form.value.secret;
 
-    const  {hash, secret} = this.form.value;
+    const { hash, secret } = this.form.value;
 
-    this.service.start( hash, secret )
-    .subscribe(
-      response => { 
-        console.log(response);
-      }
-    )
+    this.service.start(hash, secret)
+      .subscribe(
+        response => {
+          console.log(response);
+          const { hash, token } = response;
+          this.router.navigate(['/chat'], { queryParams: { hash, token }});
+        }
+      )
   }
 
   private setupForm() {
     this.form = new FormGroup({
-      'hash': new FormControl(this.hash, [ Validators.required] ),
+      'hash': new FormControl(this.hash, [Validators.required]),
       'secret': new FormControl(null, [Validators.required, Validators.minLength(5)])
     });
   }

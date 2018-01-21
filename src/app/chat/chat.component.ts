@@ -1,5 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Message } from './message.model';
+import { ChatService } from './chat.service';
+import { Chat } from './chat.model';
 
 @Component({
   selector: 'hb-chat',
@@ -8,40 +11,78 @@ import { Message } from './message.model';
 })
 export class ChatComponent implements OnInit {
 
+  chat: Chat;
   hash: string;
-  messages: Message[];
+  processing: boolean;
+  message: string;
+  token: string;
   @ViewChild('newText') inputText;
-  constructor() { }
+  constructor(
+    private route: ActivatedRoute,
+    private service: ChatService
+  ) { }
 
   ngOnInit() {
-    this.hash = 'abc-123';
-    this.messages = [
-      {
-        text: 'Olá',
-        me: false
-      },
-      {
-        text: 'oi!',
-        me: true
-      },
-      {
-        text: 'tudo?',
-        me: true
+    this.route.queryParamMap.subscribe (
+      params => {
+        this.hash = params.get('hash');
+        this.token = params.get('token');
+        this.refresh();
       }
-    ];
+    );
+  }
+
+  get messages(): Message[] {
+    return this.chat ? this.chat.messages : [];
+  }
+
+  colorBy(token: string): string {
+    return `#${ token.slice(0, 6)}`;
   }
 
   send(newText: string) {
-    if (!newText) {
+    if (this.processing) {
       return;
     }
-    if (this.messages.length >= 10) {
-      this.messages = this.messages.slice(1, 9);
+    if (!this.message || this.message.length === 0) {
+      return;
     }
-    this.messages.push({
-      text: newText,
-      me: true
-    });
-    this.inputText.nativeElement.value = null;
+    this.service.send(this.hash, this.token, this.message)
+    .subscribe(
+      response => {
+        console.log(response);
+        this.chat = response;
+        this.message = null;
+        this.processing = false;
+      },
+      err => {
+        console.warn('Ocorreu um erro ao enviar a messagem');
+        this.processing = false;
+      },
+      () => {
+        this.processing = false;
+      }
+    )
+  }
+
+  refresh() {
+    if (this.processing) {
+      return;
+    }
+    this.processing = true;
+    this.service.update(this.hash, this.token)
+    .subscribe(
+      response=> {
+        this.chat = response;
+        this.processing = false;
+      },
+      err => {
+        this.processing = false;
+        console.warn('Ocorreu um erro ao atualizar');
+      },
+      () => {
+        this.processing = false;
+      }
+    )
   }
 }

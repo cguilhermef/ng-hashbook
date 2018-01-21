@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
+import 'rxjs/add/observable/throw';
 
 @Injectable()
 export class NewChatService {
@@ -13,7 +14,7 @@ export class NewChatService {
   ) { }
 
   start(hash: string, secret: string): Observable<any> {
-    const url = 'http://10.0.1.113:4000/start';
+    const url = 'http://10.0.0.106:4000/start';
 
     return this.http.post(url, {
       hash: hash,

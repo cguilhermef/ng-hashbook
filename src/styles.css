@@ -45,9 +45,15 @@ html {
   margin-top: 40px;
 }
 
-.message {
+.messages {
   background-color: #f0f0f0;
   padding: 1rem;
+}
+
+.message-time {
+  display: block;
+  font-weight: 700;
+  font-size: 12px;
 }
 
 .footer {
